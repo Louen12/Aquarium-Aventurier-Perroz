@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/style/index.css" rel="stylesheet" />
+    <title>Perroz l'Aventurier</title>
+    
+    <script src="js/rotation-cadran.js"></script>
+</head>
+<body>
+    <style>
+        body, html {
+  overflow: hidden;
+    height: 100%;
+    background-image: url("/image/mapAquarium.png");
+  
+    /* Full height */
+    height: 100%;
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    -webkit-touch-callout: none;
+    
+  }
+
+  .mainUI
+{
+	border: 0px solid pink; 
+	position: fixed; 
+	top: 0px;  
+	width:99%; 
+	height:99%; 
+	z-index: 1; 
+	pointer-events: none; /* allow click-through in transparent areas */
+}
+
+.regionUI
+{
+	border: 0px solid yellow;
+	position: absolute; 
+	display: flex;
+	flex-direction: row;
+	pointer-events: none;
+	
+}
+
+.buttonUI
+{
+	border: 0px solid lime;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	pointer-events: auto;
+}
+
+
+#background-video {
+height: 100vh;
+width: 100vw;
+object-fit: cover;
+position: fixed;
+left: 0;
+right: 0;
+top: 0;
+bottom: 0;
+z-index: -1;
+}
+
+#btnVideo{
+font-size: 1.5rem;
+background: 0;
+border: 0;
+margin-left: 50%;
+transform: translateX(-50%);
+}
+
+.pannelControl{
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	width: 540px;
+	height: 320px;
+	background-image: url("images/tableau-de-controle.png") ;
+	background-position: center;
+  	background-repeat: no-repeat;
+ 	background-size: cover;
+	pointer-events: all;
+}
+
+#sound-container {
+    position: absolute;
+    top: 100px;
+    right: 420px;
+    width: 30px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#sound-bar {
+    position: relative;
+    width: 30px;
+    height: 150px;
+}
+
+#sound-bar-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 110%;
+    height: 110%;
+}
+
+#sound-bar-thumb {
+    position: absolute;
+    left: 0;
+    width: 110%;
+    cursor: pointer;
+}
+
+
+.skyColor
+{
+	filter: hue-rotate(240deg) saturate(100%) brightness(100%) drop-shadow(0px 0px 20px white);
+}
+
+.baseColor
+{
+	filter: hue-rotate(24deg) saturate(68%) brightness(100%) drop-shadow(0px 0px 20px white);
+}
+
+.grayColor
+{
+	filter: hue-rotate(0deg) saturate(0%) brightness(100%) drop-shadow(0px 0px 20px white);
+}
+
+.cadran {
+    width: 128px;
+    height: 128px;
+    position: absolute;
+    bottom: 10px;
+    right: 200px;
+    transform: translate(-50%, -50%);
+    cursor: grab;
+}
+
+.cadran:active {
+    cursor: grabbing;
+}
+
+.derouleur{
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    bottom: 90px;
+    right: 280px;
+    transform: rotate(-25deg);
+}
+
+.bassins{
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	top:40px;
+}
+
+.retour{
+	position: absolute;
+	width: 80px;
+	bottom: 120px;
+	right: 30px;
+}
+.description{
+	position: absolute;
+	right:20px;
+	top: 110px;
+}
+.description img{
+	width: 350px;
+}
+.description h2{
+	width: 325px;
+	position: absolute;
+	top: 80px;
+	left: 15px;
+	font-family: "Oswald", sans-serif;
+	color: aliceblue;
+}
+.description p{
+	width: 325px;
+	position: absolute;
+	top: 130px;
+	left: 15px;
+	font-family: "Oswald", sans-serif;
+	color: aliceblue;
+}
+
+    </style>
+    <div id="espece" class="dorade"></div>
+     <video id="background-video" autoplay loop>
+        <source src="video/dorade-sexe.mp4" type="video/mp4">
+    </video>
+        <div class="content">
+        <button id="btnVideo" onclick="playAndPause()"></button>
+        </div>
+    <div class="mainUI" id="uiDiv" oncontextmenu="return false;">
+
+
+        <!-- bottom-left -->
+        <div class="regionUI" style="bottom: 10px; left: 10px;">
+            <div class="buttonUI" style="width: 128px;  opacity:0.80;">
+                <div id="stick1" style="position: absolute; left:32px; top:32px;">	
+                </div>
+            </div>
+        </div>
+
+        <div class="description">
+            <img src="images/description.png" alt="description dorade">
+            <h2>La dorade royale</h2>
+		<p>1 - Couronnée d'or : La dorade royale arbore une bande dorée entre ses yeux, ressemblant à une couronne.
+			<br><br>
+			2 - Omnivore adaptable : Elle se nourrit de petits poissons, crustacés, mollusques et végétaux.
+			<br><br>
+			3 - Changeur de sexe : La dorade royale est protandre, changeant de mâle à femelle en grandissant.</p>
+        </div>
+    
+        <div class="pannelControl">
+        <!-- lien bassin -->
+	<a href="http://localhost:5173/syngnyathe.html"><div class="bassins" style="left:82px"></div></a>
+	<a href="http://localhost:5173/anemone.html"><div class="bassins" style="left:150px"></div></a>
+	<a href="http://localhost:5173/sar.html"><div class="bassins" style="left:216px"></div></a>
+	<a href="http://localhost:5173/etoile.html"><div class="bassins" style="left:283px"></div></a>
+	<a href="http://localhost:5173/homard.html"><div class="bassins" style="left:350px"></div></a>
+	<a href="http://localhost:5173/dorade.html"><div class="bassins" style="left:417px"></div></a>
+	<!-- bottom-retour -->
+	<a href="http://localhost:5173/index.html"><img src="images/return_button.png" alt="retour" class="retour"></a>
+	<!-- bottom-right -->
+        <div id="sound-container">
+            <div id="sound-bar">
+                <img src="images/slider-bouton.png" alt="Fond de la barre de son" id="sound-bar-bg" draggable="false">
+                <img src="images/curseur-slider.png" alt="Curseur de volume" id="sound-bar-thumb" draggable="false">
+            </div>
+        </div>
+
+            <div id="container">
+                <img id="cadran" src="images/Cadran_rotatif.png" alt="Cadran_rotatif" class="cadran" draggable="false">
+                <img id="derouleur" src="images/Derouleur_cadran_rotatif.png" alt="derouleur" class="derouleur" draggable="false">
+            </div>
+            <div class="regionUI" style=" bottom: 70px; right: 120px;">
+                <div class="buttonUI" style="width: 128px; opacity:0.80;">
+                    <img src="images/joystick-base.png" draggable="false"/>
+                    <div id="stick2" style="position: absolute;  left:32px; top:32.5px; ">
+                        <img src="images/joystick-noir.png" draggable="false"/>		
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+    <div class="bg">
+
+    </div>
+    <script src="js/sound-control.js"></script>
+    <script>
+        var video = document.getElementById("background-video");
+            var btn = document.getElementById("btnVideo");
+            function playAndPause () {
+            if (video.paused) {
+            video.play();
+            btn.innerHTML = "II";
+            } else {
+            video.pause();
+            btn.innerHTML = "▶";
+            }
+            }
+        const stopDragging = () => {
+           if (isDragging) {
+               isDragging = false;
+               img.style.cursor = 'grab';
+   
+                // Réinitialisation de la position avec une transition
+               img.style.transition = 'transform 0.3s ease';
+               img.style.transform = 'translate(-50%, -50%) rotate(0deg)';
+   
+               // Réinitialiser l'angle après l'animation
+               setTimeout(() => {
+                   currentRotationAngle = 0;
+               }, 300); // La durée doit correspondre à la durée de la transition CSS
+           }
+       };
+       document.addEventListener('mouseup', stopDragging);
+        img.addEventListener('mouseleave', stopDragging);
+   </script>
+</body>
+</html>
